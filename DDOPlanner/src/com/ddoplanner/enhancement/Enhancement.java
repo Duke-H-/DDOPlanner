@@ -4,8 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.ddoplanner.client.DDOCharacter;
+import com.google.gwt.user.client.ui.Widget;
 
-public abstract class Enhancement {
+public abstract class Enhancement extends Widget{
 
 	public String getTitle(){ return title; };
 	public abstract boolean EnhancementAllowed(DDOCharacter c);

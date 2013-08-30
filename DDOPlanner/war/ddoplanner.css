@@ -32,16 +32,17 @@ h1 {
 	font-color: green;
 	background-color: green;
 	border: 2 px solid black;
+	min-height: 600px;
 }
 
 
-.characterCreation{
+.characterCreator{
 	background-color: yellow;
 	border: 2px solid black;
+	min-height: 100px;
 }
 
-.selectAttributesContainer
-{
+.selectAttributesContainer{
 	background-color: #20FFB8;
 	text-align: left;
 	border: 2px solid yellow;
@@ -53,8 +54,27 @@ h1 {
 	border: 2px solid green;
 }
 
-.gwt-selectedClasses{
+.selectedClasses{
 	background-color: #2062B8;
 	text-align: left;
 	border: 2px solid red;
+	height: 50px;
+}
+
+.multipleTreeContainer{
+	background-color: grey;
+	background-image:url('/images/trees/blanks/background_progress.png');
+	border: 2px solid black;
+	width:1272px;
+	height:1075px;
+}
+
+.treeContainer{
+	width: 50px;
+	height:100px;
+	border:1px solid black;
+}
+
+.tree{
+	
 }

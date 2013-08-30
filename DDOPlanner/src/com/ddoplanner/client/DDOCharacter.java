@@ -9,7 +9,7 @@ import java.util.List;
  * 
  *         Defines a DDO Character
  * 
- *         Race Level Class progression TODO:Feats TODO:Stats
+ *         Race, Level, Class progression, TODO:Feats, TODO:Stats
  */
 public class DDOCharacter {
 

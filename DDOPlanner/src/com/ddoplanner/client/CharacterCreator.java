@@ -12,37 +12,35 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
+ * Creates a DDOCharacter object and initializes it via user input
  * 
- * @author Duke-H-
- *
- * @
  */
 public class CharacterCreator {
 
+	CharacterCreator(Panel p) {container = p;}
+	
 	private DDOCharacter character = new DDOCharacter();
 	List<Image> selectClassImageList = new ArrayList<Image>(); // use this list to manipulate the visible classes
 	
 	//Some layout panels
-	Panel characterCreation = new FlowPanel();
+	//Panel characterCreation = RootPanel.get("characterCreator");
+	Panel container;
 	Panel selectAttributesContainer = new FlowPanel();
 	Panel selectClassContainer = new FlowPanel();
-	Panel selectedClasses = new FlowPanel();
+	Panel selectedClasses = new HorizontalPanel();
 
 	public DDOCharacter generate() {
+		container.add(selectAttributesContainer);
+		container.add(selectClassContainer);
+		container.add(selectedClasses);
 
-		RootPanel.get().add(characterCreation);
-		characterCreation.add(selectAttributesContainer);
-		characterCreation.add(selectClassContainer);
-		characterCreation.add(selectedClasses);
-
-		characterCreation.setStylePrimaryName("characterCreation");
 		selectAttributesContainer.setStylePrimaryName("selectAttributesContainer");
 		selectClassContainer.addStyleName("selectClassContainer");
 		selectedClasses.addStyleName("selectedClasses");
@@ -50,17 +48,18 @@ public class CharacterCreator {
 		generateRace();
 		generateAlignment();
 		generateClassLevels();
+		
 		generateReset();
 
 		// Process done, submit the character and load the tree view
 		Button submitCharacter = new Button("Load enhancement trees");
 		submitCharacter.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				// hide char generation
-				// load trees
+				
+//				DDOPlanner.loadTrees();
 			}
 		});
-		characterCreation.add(submitCharacter);
+		container.add(submitCharacter);
 
 		return character;
 	}
@@ -94,7 +93,7 @@ public class CharacterCreator {
 		selectAlignment.addItem("Select Alignment");
 		selectAlignment.addItem("Lawful Good");
 		selectAlignment.addItem("Neutral Good");
-		selectAlignment.addItem("ChaoticGood");
+		selectAlignment.addItem("Chaotic Good");
 		selectAlignment.addItem("Lawful Neutral");
 		selectAlignment.addItem("True Neutral");
 		selectAlignment.addItem("Chaotic Neutral");
@@ -196,10 +195,13 @@ public class CharacterCreator {
 
 			}
 		});
-		characterCreation.add(resetCharacter);
+		container.add(resetCharacter);
 	}
 
 	private void takeClass(int classID) {
+		
+		//TODO: Implement alignment check for classes
+		
 		// must not have 20 levels already
 		if (character.getClassProgression().size() < 20) {
 			character.addClassProgression(classID);
@@ -236,9 +238,18 @@ public class CharacterCreator {
 		}
 	}
 
+	/**
+	 * Builds a list of images showing the classes selected by the user.
+	 */
 	private void refreshTakenClassList() {
 		selectedClasses.clear();
+		int i = 0;
 		for (int classTaken : character.getClassProgression()) {
+			
+			//Add a seperator that displays level
+			selectedClasses.add(new Label(Integer.toString(++i)));
+			
+			//Insert correct class image
 			if (classTaken == 1)
 				selectedClasses.add(new Image("images/classes/artificer.png"));
 			else if (classTaken == 2)
