@@ -15,7 +15,6 @@ import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Panel;
-import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -24,44 +23,33 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class CharacterCreator {
 
-	CharacterCreator(Panel p) {container = p;}
+	public CharacterCreator(Panel p) {this.container = p;}
 	
-	private DDOCharacter character = new DDOCharacter();
 	List<Image> selectClassImageList = new ArrayList<Image>(); // use this list to manipulate the visible classes
-	
 	//Some layout panels
 	//Panel characterCreation = RootPanel.get("characterCreator");
 	Panel container;
 	Panel selectAttributesContainer = new FlowPanel();
 	Panel selectClassContainer = new FlowPanel();
 	Panel selectedClasses = new HorizontalPanel();
+	Label classSplit = new Label();
 
-	public DDOCharacter generate() {
+	public void generate() {
 		container.add(selectAttributesContainer);
 		container.add(selectClassContainer);
 		container.add(selectedClasses);
+		selectedClasses.setVisible(false);
 
-		selectAttributesContainer.setStylePrimaryName("selectAttributesContainer");
+		selectAttributesContainer.addStyleName("selectAttributesContainer");
 		selectClassContainer.addStyleName("selectClassContainer");
 		selectedClasses.addStyleName("selectedClasses");
 		
 		generateRace();
 		generateAlignment();
 		generateClassLevels();
+		generateResetButton();
 		
-		generateReset();
-
-		// Process done, submit the character and load the tree view
-		Button submitCharacter = new Button("Load enhancement trees");
-		submitCharacter.addClickHandler(new ClickHandler() {
-			public void onClick(ClickEvent event) {
-				
-//				DDOPlanner.loadTrees();
-			}
-		});
-		container.add(submitCharacter);
-
-		return character;
+		selectAttributesContainer.add(classSplit);
 	}
 
 	public void generateRace() {
@@ -79,11 +67,13 @@ public class CharacterCreator {
 		selectAttributesContainer.add(selectRace);
 
 		selectRace.addChangeHandler(new ChangeHandler() {
-			public void onChange(
-					com.google.gwt.event.dom.client.ChangeEvent event) {
+			public void onChange(com.google.gwt.event.dom.client.ChangeEvent event) {
 				int index = selectRace.getSelectedIndex();
-				if (index > 0)
-					character.setRace(selectRace.getValue(index));
+				if (index > 0){
+					String s = selectRace.getValue(index).toLowerCase();
+					DDOCharacter.setRace(s);
+					DDOPlanner.updateRacialTree();
+				}
 			}
 		});
 	}
@@ -105,7 +95,7 @@ public class CharacterCreator {
 					com.google.gwt.event.dom.client.ChangeEvent event) {
 				int index = selectAlignment.getSelectedIndex();
 				if (index > 0)
-					character.setAlignment(selectAlignment.getValue(index));
+					DDOCharacter.setAlignment(selectAlignment.getValue(index));
 			}
 		});
 	}
@@ -185,17 +175,17 @@ public class CharacterCreator {
 		selectClassContainer.add(selectClassLevels);
 	}
 
-	public void generateReset() {
+	public void generateResetButton() {
 		Button resetCharacter = new Button("Reset class progression");
+		resetCharacter.addStyleName("resetCharacter");
 		resetCharacter.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				character = new DDOCharacter();
+				DDOCharacter.reset();
 				refreshClassList();
 				refreshTakenClassList();
-
 			}
 		});
-		container.add(resetCharacter);
+		selectAttributesContainer.add(resetCharacter);
 	}
 
 	private void takeClass(int classID) {
@@ -203,8 +193,8 @@ public class CharacterCreator {
 		//TODO: Implement alignment check for classes
 		
 		// must not have 20 levels already
-		if (character.getClassProgression().size() < 20) {
-			character.addClassProgression(classID);
+		if (DDOCharacter.getClassProgression().size() < 20) {
+			DDOCharacter.addClassProgression(classID);
 			refreshClassList();
 			refreshTakenClassList();
 		}
@@ -220,12 +210,12 @@ public class CharacterCreator {
 
 		// then set visibility of classbuttons depending on classes taken
 		int i = 1;
-		if (character.getTakenClasses().size() >= 3) {
+		if (DDOCharacter.getTakenClasses().size() >= 3) {
 			
 			selectClassContainer.clear();
 			
 			for (Image img : selectClassImageList) {
-				if(character.classTaken(i)){
+				if(DDOCharacter.classTaken(i)){
 					selectClassContainer.add(img);
 				}
 				else{
@@ -242,9 +232,11 @@ public class CharacterCreator {
 	 * Builds a list of images showing the classes selected by the user.
 	 */
 	private void refreshTakenClassList() {
+		classSplit.setText("");
+		selectedClasses.setVisible(true);
 		selectedClasses.clear();
 		int i = 0;
-		for (int classTaken : character.getClassProgression()) {
+		for (int classTaken : DDOCharacter.getClassProgression()) {
 			
 			//Add a seperator that displays level
 			selectedClasses.add(new Label(Integer.toString(++i)));

@@ -10,24 +10,18 @@ h1 {
   text-align: left;
 }
 
-.sendButton {
-  display: block;
-  font-size: 16pt;
+
+/** Buttons */
+.gwt-Button{
+	height:30px;
 }
 
-/** Most GWT widgets already have a style name defined */
-.gwt-DialogBox {
-  width: 400px;
+.resetCharacter{
+	padding:1px 7px !important;
+	height:auto;
 }
 
-.dialogVPanel {
-  margin: 5px;
-}
-
-.serverResponseLabelError {
-  color: red;
-}
-
+/** Containers for layout */
 .appContainer{
 	font-color: green;
 	background-color: green;
@@ -35,46 +29,145 @@ h1 {
 	min-height: 600px;
 }
 
-
 .characterCreator{
-	background-color: yellow;
+	background-color: #eeeeee;
 	border: 2px solid black;
-	min-height: 100px;
+	/*min-height: 100px;*/
 }
 
 .selectAttributesContainer{
-	background-color: #20FFB8;
+	/*background-color: #20FFB8;*/
 	text-align: left;
-	border: 2px solid yellow;
+	border: 0px solid yellow;
+	height:auto;
 }
 
 .selectClassContainer{
-	background-color: #9222ff;
+	/*background-color: #111111;*/
 	text-align: left;
-	border: 2px solid green;
+	border: 0px solid green;
+	height:auto;
+	min-width:650px;
 }
 
 .selectedClasses{
-	background-color: #2062B8;
+	background-color: #eeeeee;
 	text-align: left;
-	border: 2px solid red;
-	height: 50px;
+	border: 0px solid red;
+	height: auto;
+}
+
+.selectedClasses .gwt-Label{
+	font-size:16pt;
+}
+
+
+.prestigeContainer{
+	min-width:600px;
+	min-height:100px;
+	background:blue;
+	border:2px solid yellow;
 }
 
 .multipleTreeContainer{
 	background-color: grey;
 	background-image:url('/images/trees/blanks/background_progress.png');
-	border: 2px solid black;
+	border: 0px solid black;
 	width:1272px;
 	height:1075px;
+	z-index:1;
 }
 
-.treeContainer{
-	width: 50px;
-	height:100px;
-	border:1px solid black;
+.racialTreeContainer{
+	width:325px;
+	height:auto;
 }
 
-.tree{
-	
+.classTreeContainer{
+	margin: 0px;
+	padding:0px;
+	width:930px;
+	height:auto;
+	border: 0px solid yellow;
+	border-collapse:collapse;
 }
+
+.classTreeContainer .spacer-top{
+	height:38px;
+}
+.classTreeContainer .spacer-mid{
+	height:38px;
+}
+.classTreeContainer .spacer-bot{
+	height:38px;
+}
+
+.classTree{
+	width:310px;
+	height:478px;
+	/*height:auto;*/
+	border:0px solid red;
+	padding:0px;
+	margin:0px;
+	background-image:url('/images/trees/blanks/blank.png');
+}
+
+.racialTree{
+	margin-top:40px;
+	margin-left:8px;
+	width: 314px;
+	height:468px;
+	border:0px solid yellow;
+}
+
+/*.treeContainer{
+	border:2px solid red;
+	height:478px;
+	border-collapse:collapse;
+}*/
+
+.enhancement{
+	margin:0;
+	margin-bottom:-4px; /*Gets rid of the vertical spacing between enhancements*/
+	padding:0;
+	height:72px;
+	width:62px;
+}
+
+.core{
+	margin:0;
+	margin-top:-2px;
+/*	margin-left:-2px;*/
+	padding:0;
+}
+
+.pointsSpentTree{
+	width:295px;
+	height:15px;
+	border: 0px solid red;
+	text-align: right;
+	vertical-align:text-top;
+	padding: 0;
+	color: white;
+}
+
+.blankTree{	
+	width:310px;
+	height:478px;
+	padding:0px;
+	margin:0px;
+	background-image:url('/images/trees/blanks/blank.png');
+}
+
+.kensaiTree{	background-image:url('/images/trees/blanks/kensai_blank.png');}
+.stalwartTree{	background-image:url('/images/trees/blanks/stalwart_blank.png');}
+
+.drowTree{		background-image:url('/images/trees/blanks/drow_blank.png');}
+.dwarfTree{		background-image:url('/images/trees/blanks/dwarf_blank.png');}
+.elfTree{		background-image:url('/images/trees/blanks/elf_blank.png');}
+.halflingTree{	background-image:url('/images/trees/blanks/halfling_blank.png');}
+.halfelfTree{	background-image:url('/images/trees/blanks/halfelf_blank.png');}
+.halforcTree{	background-image:url('/images/trees/blanks/halforc_blank.png');}
+.humanTree{		background-image:url('/images/trees/blanks/human_blank.png');}
+.warforgedTree{	background-image:url('/images/trees/blanks/warforged_blank.png');}
+/*Add iconics too*/
