@@ -33,7 +33,9 @@ public class CharacterCreator {
 	Panel selectClassContainer = new FlowPanel();
 	Panel selectedClasses = new HorizontalPanel();
 	Label classSplit = new Label();
-
+	final ListBox selectRace = new ListBox();
+	final ListBox selectAlignment = new ListBox();
+	
 	public void generate() {
 		container.add(selectAttributesContainer);
 		container.add(selectClassContainer);
@@ -53,14 +55,14 @@ public class CharacterCreator {
 	}
 
 	public void generateRace() {
-		final ListBox selectRace = new ListBox();
+		
 		selectRace.addItem("Select Race");
-		selectRace.addItem("Drow Elf");
+		selectRace.addItem("Drow");
 		selectRace.addItem("Dwarf");
 		selectRace.addItem("Elf");
 		selectRace.addItem("Halfling");
-		selectRace.addItem("Half Elf");
-		selectRace.addItem("Half Orc");
+		selectRace.addItem("HalfElf");
+		selectRace.addItem("HalfOrc");
 		selectRace.addItem("Human");
 		selectRace.addItem("Warforged");
 		selectRace.setVisibleItemCount(1);
@@ -79,7 +81,7 @@ public class CharacterCreator {
 	}
 
 	public void generateAlignment() {
-		final ListBox selectAlignment = new ListBox();
+
 		selectAlignment.addItem("Select Alignment");
 		selectAlignment.addItem("Lawful Good");
 		selectAlignment.addItem("Neutral Good");
@@ -183,6 +185,8 @@ public class CharacterCreator {
 				DDOCharacter.reset();
 				refreshClassList();
 				refreshTakenClassList();
+				selectAlignment.setItemSelected(0, true);
+				selectRace.setItemSelected(0, true);
 			}
 		});
 		selectAttributesContainer.add(resetCharacter);

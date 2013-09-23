@@ -33,10 +33,15 @@ public class DDOCharacter {
 		takenClasses = new ArrayList<Integer>();
 		prestigeToClassMap = new HashMap<String, Integer>(){
 	        {
+	        	put("ravager", 2);
+	        	put("frenzied", 2);
+	        	put("occult", 2);
 	            put("kensai", 7);
 	            put("stalwart", 7);
-	            put("kotc", 8);
-	            put("sacred", 8);
+	            put("kotc", 9);
+	            put("sacred", 9);
+	            put("archmage", 13);
+	            put("palemaster", 13);
 	        }
 	    };
 	};
@@ -229,8 +234,25 @@ public class DDOCharacter {
 	}
 	
 	public static void addPrestigeTree(String prestige) {
-		if(takenPrestigeTrees.size() < 6) //only 6 trees allowed
-			takenPrestigeTrees.add(new ClassTree(prestige));
+		BlankTree bt = new BlankTree();
+		
+		//we do not allow multiple of the same tree
+		for(ClassTree ct : takenPrestigeTrees){ 
+			if(ct.getPrestige().equals(prestige))
+				return;
+		}
+		
+		//find the first tree that is blank and replace the blank tree with our new class tree
+		for(EnhancementTree e : takenPrestigeTrees){ 
+			if(e.getClass().equals(bt.getClass())){ 
+				takenPrestigeTrees.set(takenPrestigeTrees.indexOf(e) , new ClassTree(prestige)); 
+				break;
+			}
+		}
+			
+//		if(takenPrestigeTrees.size() < 6) //only 6 trees allowed
+//			takenPrestigeTrees.add(new ClassTree(prestige));
+		return;
 	}
 	
 	public static void setTakenTree(int index, ClassTree tree) {
@@ -238,17 +260,22 @@ public class DDOCharacter {
 	}
 
 	public static void reset(){
-		classProgression.clear();
-		takenPrestigeTrees.clear();
-		characterRace = "";
-		alignment = "";
-		takenClasses.clear();
-		pointsSpent = 0;
+		init(); //just call init() instead of duplicating everything
+//		for (int i = 0; i < 6; i++){
+//			takenPrestigeTrees.set(i, new BlankTree());
+//		}
+//		classProgression.clear();
+//		takenPrestigeTrees.clear();
+//		characterRace = "";
+//		alignment = "";
+//		takenClasses.clear();
+//		pointsSpent = 0;
 		
 	};
 	
 	public static void resetTrees(){
-		takenPrestigeTrees.clear();
+		takenPrestigeTrees = new ArrayList<ClassTree>(Arrays.asList(new BlankTree(), new BlankTree(), new BlankTree(), new BlankTree(), new BlankTree(), new BlankTree()));
+		racialTree = new RacialTree();
 		pointsSpent = 0;
 	}
 	
@@ -260,7 +287,7 @@ public class DDOCharacter {
 	
 	/*Taken Classes: 	0==None, 1==Artificer, 2==Barbarian, 3==Bard, 
 						4==Cleric, 5==Druid, 6==FavoredSoul, 7==Fighter, 
-						8==Paladin, 9==Ranger, 10==Rogue, 11==Sorceror, 12==Wizard */
+						8==Monk, 9==Paladin, 10==Ranger, 11==Rogue, 12==Sorceror, 13==Wizard */
 	private static List<Integer> takenClasses;// = new ArrayList<Integer>();
 	
 	public static Map<String, Integer> prestigeToClassMap;/* = new HashMap<String, Integer>(){

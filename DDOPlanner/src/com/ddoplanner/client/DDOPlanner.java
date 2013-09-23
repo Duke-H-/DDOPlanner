@@ -1,7 +1,10 @@
 package com.ddoplanner.client;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
 import com.ddoplanner.tree.ClassTree;
 import com.ddoplanner.tree.PrestigeTitle;
@@ -94,7 +97,6 @@ public class DDOPlanner implements EntryPoint {
 		Button submitCharacter = new Button("Load enhancement trees");
 		submitCharacter.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				
 				loadTrees();
 			}
 		});
@@ -104,7 +106,8 @@ public class DDOPlanner implements EntryPoint {
 		Button clearTrees = new Button("Clear trees");
 		clearTrees.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				clearTrees();
+				DDOCharacter.resetTrees();
+				loadTrees();
 			}
 		});
 		buttonContainer.add(clearTrees);
@@ -113,46 +116,9 @@ public class DDOPlanner implements EntryPoint {
 	}
 	
 	/*
-	 * Load the list with buttons which the user uses to select a prestige class
-	 */
-	protected void loadPrestigeList(){
-		
-		//print all prestige buttons
-		
-		for(Map.Entry<String, Integer> entry : DDOCharacter.prestigeToClassMap.entrySet()){ //loop over all possible prestiges
-			if(DDOCharacter.getTakenClasses().contains(entry.getValue())); //fetch those who match our classes
-				new PrestigeTitle(entry.getKey(), classTreeContainer); //add them to the ui
-		}
-
-		
-		PrestigeTitle pt = new PrestigeTitle("mechanic", classTreeContainer);
-		
-		
-		//Prepare the images
-		Image prestige1 = new Image("images/trees/title/mechanic_title.png");
-		Image prestige2 = new Image("images/trees/title/assassin_title.png");
-		Image prestige3 = new Image("images/trees/title/acrobat_title.png");
-//		Image prestige4 = new Image
-		
-		//make clickhandlers
-
-		
-		//add clickhandlers
-		
-		
-		//load images into container
-//		prestigeContainer.add(prestige1);
-//		prestigeContainer.add(prestige2);
-//		prestigeContainer.add(prestige3);
-		
-	}
-	
-		
-	/*
 	 * Load all Trees
 	 */
 	protected void loadTrees(){
-		
 		/* Load the list with avalible prestige classes*/
 		loadPrestigeList();
 		
@@ -162,7 +128,37 @@ public class DDOPlanner implements EntryPoint {
 
 		updateRacialTree();
 		updateClassTrees();
-
+	}
+	
+	/*
+	 * Helper function that iterates through a map and gets keys by value
+	 * Using this to fetch the prestige classes for each character class.
+	 */
+	private static <T, E> Set<T> getKeysByValue(Map<T, E> map, E value) {
+	     Set<T> keys = new HashSet<T>();
+	     for (Entry<T, E> entry : map.entrySet()) {
+	         if (value.equals(entry.getValue())) {
+	             keys.add(entry.getKey());
+	         }
+	     }
+	     return keys;
+	}
+	
+	/*
+	 * Load the list with buttons which the user uses to select a prestige class
+	 */
+	protected void loadPrestigeList(){
+		//print all prestige buttons
+		prestigeContainer.clear();
+		
+		for(int classId : DDOCharacter.getTakenClasses()){//loop over all possible prestige classes
+			if(DDOCharacter.prestigeToClassMap.containsValue(classId)){ //check to see if there is any valid
+				Set<String> prestigeSet = getKeysByValue(DDOCharacter.prestigeToClassMap, classId);//fetch those who match our classes
+				for(String prestige : prestigeSet){
+					new PrestigeTitle(prestige, prestigeContainer); //add them to the ui
+				}
+			}	
+		}
 	}
 	
 	public static void updateClassTrees(){
@@ -176,17 +172,6 @@ public class DDOPlanner implements EntryPoint {
 		classTreeContainer.setWidget(3, 0, ctl.get(3).getTree());
 		classTreeContainer.setWidget(3, 1, ctl.get(4).getTree());
 		classTreeContainer.setWidget(3, 2, ctl.get(5).getTree());
-
-		
-		//load the first three containers for trees
-		ClassTree ct1 = new ClassTree("kensai");
-		classTreeContainer.setWidget(1, 0, ct1.getTree());
-		DDOCharacter.setTakenTree(0, ct1);
-		
-		ClassTree ct2 = new ClassTree("stalwart");
-		classTreeContainer.setWidget(1, 1, ct2.getTree());
-		DDOCharacter.setTakenTree(0, ct2);
-
 	}
 	
 	public static void updateRacialTree(){
@@ -195,14 +180,6 @@ public class DDOPlanner implements EntryPoint {
 		racialTreeContainer.add(rt.getTree());
 	}
 	
-//	public static void addTree(int x, int y, PrestigeTitle pt){
-//		
-//	}
-//	
-//	public static void addFirstEmptyTree(PrestigeTitle pt){
-////		int position = DDOCharacter.getFirstEmptyTree();
-//	}
-//	
 	protected static void clearClassTrees(){
 		classTreeContainer.clear();
 		classTreeContainer.setCellSpacing(0);
@@ -212,13 +189,12 @@ public class DDOPlanner implements EntryPoint {
 		classTreeContainer.getFlexCellFormatter().addStyleName(0, 1, "spacer-top");
 		
 		//spacer row
-		classTreeContainer.setWidget(2, 1, new Label("rowrowroworworowrowor"));
+		classTreeContainer.setWidget(2, 1, new Label(""));
 		classTreeContainer.getFlexCellFormatter().addStyleName(2, 1, "spacer-mid");
 		
 		//spacer row
-		classTreeContainer.setWidget(4, 1, new Label("rowrowroworworowrowor"));
+		classTreeContainer.setWidget(4, 1, new Label(""));
 		classTreeContainer.getFlexCellFormatter().addStyleName(4, 1, "spacer-bot");
-		
 	}
 	
 	protected void clearTrees(){

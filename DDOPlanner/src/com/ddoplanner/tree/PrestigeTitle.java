@@ -6,10 +6,11 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.Panel;
 
 public class PrestigeTitle extends Image{
 	
-	public PrestigeTitle(final String prestige, FlexTable classTable){
+	public PrestigeTitle(final String prestige, Panel prestigeContainer){
 		String url = "/images/trees/title/" + prestige + "_title.png";
 		super.setUrl(url);
 		super.setStyleName("prestigeTitle");
@@ -22,5 +23,8 @@ public class PrestigeTitle extends Image{
 				DDOPlanner.updateClassTrees();
 			}
 		};
+		this.addClickHandler(clickHandler);
+		
+		prestigeContainer.add(this);
 	}
 }

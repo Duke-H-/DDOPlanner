@@ -136,9 +136,13 @@ h1 {
 
 .core{
 	margin:0;
-	margin-top:-2px;
+/*	margin-top:-2px;*/
 /*	margin-left:-2px;*/
 	padding:0;
+}
+
+.racialTree .core{
+	
 }
 
 .pointsSpentTree{
@@ -161,6 +165,11 @@ h1 {
 
 .kensaiTree{	background-image:url('/images/trees/blanks/kensai_blank.png');}
 .stalwartTree{	background-image:url('/images/trees/blanks/stalwart_blank.png');}
+.sacredTree{	background-image:url('/images/trees/blanks/sacred_blank.png');}
+.kotcTree{		background-image:url('/images/trees/blanks/kotc_blank.png');}
+.ravagerTree{	background-image:url('/images/trees/blanks/ravager_blank.png');}
+.occultTree{	background-image:url('/images/trees/blanks/occult_blank.png');}
+
 
 .drowTree{		background-image:url('/images/trees/blanks/drow_blank.png');}
 .dwarfTree{		background-image:url('/images/trees/blanks/dwarf_blank.png');}

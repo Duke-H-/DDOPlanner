@@ -14,6 +14,7 @@ import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.event.dom.client.MouseOutEvent;
 import com.google.gwt.event.dom.client.MouseOutHandler;
 
@@ -72,7 +73,8 @@ public class Enhancement extends Image{
 		String tipurl = "images/trees/" + prestige + "/tooltips/" + prestige + "_" + id + ".jpg";
 		final HTMLPanel html = new HTMLPanel("");
 //        html.getElement().setAttribute("style","padding: 0px;"); // set some style
-        html.add(new Image(tipurl));
+//        html.add(new Image(tipurl));TODO: uncomment this when tooltips are done
+		html.add(new Label("No tooltip."));
         final MyTooltip tooltip = new MyTooltip(html);
         tooltip.setWidget(html);
 	
